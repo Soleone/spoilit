@@ -332,5 +332,5 @@ Reply with only JSON in this shape: {"keywords": ["..."], "subreddits": ["..."]}
     return out
   }
 
-  return { search, fromWikidata, findWiki, fromFandom, fromClaude, buildPrompt, parseDump, merge }
+  return { search, fromWikidata, findWiki, fromFandom, fromClaude, buildPrompt, parseDump, merge, titleVariants, distinctive }
 })()

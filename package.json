@@ -1,0 +1,18 @@
+{
+  "name": "spoilit",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Hide Reddit posts and comments about movies, shows and games you haven't caught up on yet.",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "demo": "node demo/run.mjs",
+    "demo:web": "node demo/web/build.mjs",
+    "media:capture": "node scripts/capture.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "@soleone/showcase": "github:Soleone/showcase"
+  }
+}

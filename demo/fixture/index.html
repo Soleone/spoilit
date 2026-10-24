@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo feed</title>
+  <style>
+    body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #0b0d0f; color: #e6e8ea; }
+    #masthead { height: 52px; display: flex; align-items: center; gap: 14px; padding: 0 20px; border-bottom: 1px solid #23282d; background: #101316; position: sticky; top: 0; z-index: 5; }
+    #masthead .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+    #masthead .where { color: #8b939b; }
+    main { max-width: 720px; margin: 0 auto; padding: 20px 16px 80px; }
+    shreddit-post, shreddit-comment, shreddit-comment-tree { display: block; }
+    article { margin-bottom: 12px; border: 1px solid #23282d; border-radius: 14px; background: #121518; }
+    shreddit-post { padding: 14px 16px; }
+    .sub { font-size: 12px; color: #8b939b; margin-bottom: 4px; }
+    .sub b { color: #c3c9cf; font-weight: 600; }
+    .title { margin: 0 0 6px; font-size: 17px; line-height: 1.3; font-weight: 600; }
+    .title a { color: inherit; text-decoration: none; }
+    .title a:hover { text-decoration: underline; }
+    .snippet { margin: 0 0 10px; color: #aab1b8; }
+    .stats { display: flex; gap: 16px; font-size: 12px; color: #8b939b; }
+    .back { display: inline-block; margin-bottom: 12px; color: #8b939b; font-size: 13px; text-decoration: none; }
+    .back:hover { color: #e6e8ea; }
+    shreddit-comment { padding: 6px 0 6px 14px; margin-left: 6px; border-left: 2px solid #23282d; }
+    shreddit-comment [slot="commentMeta"] { font-size: 12px; color: #8b939b; margin-bottom: 2px; }
+    shreddit-comment [slot="commentMeta"] b { color: #c3c9cf; font-weight: 600; }
+    shreddit-comment [slot="comment"] { color: #d4d8dc; }
+    shreddit-comment shreddit-comment { margin-top: 6px; }
+    shreddit-comment-tree { margin-top: 18px; }
+    h2.count { margin: 22px 0 0; font-size: 13px; color: #8b939b; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div id="masthead"><span class="logo">Demo feed</span><span class="where" id="where"></span></div>
+  <main id="app"></main>
+
+  <script>
+  // A made-up feed in the markup shape the extension looks for (shreddit-post inside an article,
+  // shreddit-comment with a [slot="comment"] body). Every post and comment here is invented.
+  (() => {
+    const POSTS = [
+      { id: 'a1b2c3', sub: 'television', title: "Rhaenyra's last scene is going to be talked about for years",
+        text: "No spoilers in the title, I promise. Just rewatch the final ten minutes and tell me I'm wrong.", up: '4.2k', n: 812,
+        comments: [
+          ['dragonfan88', 'The way they framed Vhagar in the last shot gave me chills.'],
+          ['bookreader', 'Daemon deserved better, and I will die on this hill.', [['cinephile_j', "Aemond had it coming though."]]],
+          ['quietwatcher', 'Honestly the pacing carried it.'],
+        ] },
+      { id: 'd4e5f6', sub: 'pics', title: 'My cat has discovered the laundry basket and will not be moved',
+        text: 'Day three. We have all accepted it.', up: '18.9k', n: 640,
+        comments: [['lintcollector', 'That is a throne now.'], ['sockpuppet', 'Mine does the same with grocery bags.']] },
+      { id: 'g7h8i9', sub: 'gaming', title: 'Finally beat Messmer after 40 attempts, no summons',
+        text: "Controller nearly went through the wall. Worth it. Here's the build that finally worked.", up: '9.7k', n: 1204,
+        comments: [['sweatyhands', 'Respect. I gave up and used the ashes.'], ['lore_goblin', 'Wait until you read the item descriptions.']] },
+      { id: 'j1k2l3', sub: 'movies', title: "What's a movie you rewatch every single year?",
+        text: 'Mine is a dumb action movie from the 90s and I refuse to apologize.', up: '2.1k', n: 3310,
+        comments: [
+          ['popcornpete', 'Still the best Christmas movie. Fight me.'],
+          ['replayer', "Not a movie, but I replay Elden Ring every spring and always find something new.", [['thread_reader', 'Same! The Shadow of the Erdtree DLC alone is worth a second run.']]],
+          ['filmschool', 'Lawrence of Arabia, on the biggest screen I can find.'],
+        ] },
+      { id: 'm4n5o6', sub: 'television', title: 'That Dragonstone twist changes everything about the season',
+        text: 'I need someone to talk to. Three days of thinking about it and I still have questions.', up: '3.3k', n: 954,
+        comments: [['rewatcher', 'Go back to the first episode, it was all there.']] },
+      { id: 'p7q8r9', sub: 'AskReddit', title: 'What is the one cooking tip you wish you had learned sooner?',
+        text: 'Salt your pasta water. Then tell me what yours is.', up: '12.4k', n: 8920,
+        comments: [['panfried', 'Let the pan get hot before the food goes in.'], ['mise_en_place', 'Read the whole recipe first.']] },
+      { id: 's1t2u3', sub: 'houseofthedragon', title: 'Anyone else notice how good the lighting is in the opening scene?',
+        text: 'Candlelight everywhere, no harsh shadows. Someone really cared.', up: '1.8k', n: 211,
+        comments: [['gaffer_gal', 'The cinematographer deserves an award for it.']] },
+      { id: 'v4w5x6', sub: 'technology', title: 'New open-source text editor loads a 2 GB log file instantly',
+        text: 'Memory-mapped, written in Rust, and the benchmarks hold up when I reproduced them.', up: '5.6k', n: 733,
+        comments: [['rustacean', 'Finally. I have been waiting for something like this.']] },
+    ]
+
+    const app = document.getElementById('app')
+    const where = document.getElementById('where')
+    const el = (tag, attrs = {}, ...kids) => {
+      const node = document.createElement(tag)
+      for (const [k, v] of Object.entries(attrs)) k === 'text' ? (node.textContent = v) : node.setAttribute(k, v)
+      node.append(...kids)
+      return node
+    }
+    const path = (p) => `/r/${p.sub}/comments/${p.id}/${p.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 40)}/`
+
+    function postEl(p, full) {
+      const post = el('shreddit-post', { id: `t3_${p.id}`, 'post-title': p.title, 'subreddit-prefixed-name': `r/${p.sub}` },
+        el('div', { class: 'sub' }, el('b', { text: `r/${p.sub}` })),
+        el('h3', { class: 'title' }, full ? document.createTextNode(p.title) : el('a', { href: path(p), text: p.title })),
+        el('p', { class: 'snippet', text: p.text }),
+        el('div', { class: 'stats' }, el('span', { text: `${p.up} upvotes` }), el('span', { text: `${p.n.toLocaleString()} comments` })),
+      )
+      return el('article', {}, post)
+    }
+
+    function commentEl([author, body, replies = []]) {
+      const c = el('shreddit-comment', {},
+        el('div', { slot: 'commentMeta' }, el('b', { text: author })),
+        el('div', { slot: 'comment', text: body }),
+      )
+      for (const r of replies) c.append(commentEl(r))
+      return c
+    }
+
+    function render() {
+      const m = location.pathname.match(/^\/r\/([^/]+)\/comments\/([a-z0-9]+)/i)
+      const post = m && POSTS.find((p) => p.id === m[2])
+      app.replaceChildren()
+      if (post) {
+        where.textContent = `r/${post.sub}`
+        app.append(el('a', { class: 'back', href: '/', text: '← Back to the feed' }), postEl(post, true))
+        app.append(el('h2', { class: 'count', text: `${post.n.toLocaleString()} comments` }))
+        app.append(el('shreddit-comment-tree', {}, ...post.comments.map(commentEl)))
+      } else {
+        where.textContent = 'Home'
+        app.append(...POSTS.map((p) => postEl(p, false)))
+      }
+      scrollTo(0, 0)
+    }
+
+    // Reddit is a single page app; so is this, which keeps navigation inside one document.
+    addEventListener('click', (e) => {
+      const a = e.target.closest?.('a[href^="/"]')
+      if (!a || e.defaultPrevented) return
+      e.preventDefault()
+      history.pushState({}, '', a.getAttribute('href'))
+      render()
+    })
+    addEventListener('popstate', render)
+    render()
+  })()
+  </script>
+</body>
+</html>

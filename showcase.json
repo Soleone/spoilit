@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Soleone/showcase/main/schema/showcase.schema.json",
+  "title": "Spoilit",
+  "pitch": "Hide Reddit posts and comments about the movie, show or game you haven't caught up on, without muting whole communities.",
+  "description": "Type a title and Spoilit gathers its characters, cast and episodes from Wikidata and fan wikis, then covers matching posts and whole comment sections. Matching runs in your browser; a Claude key is optional for new releases.",
+  "kind": "browser-extension",
+  "stage": "prototype",
+  "year": 2026,
+  "repo": "https://github.com/Soleone/spoilit",
+  "brand": {
+    "icon": "icons/icon128.png",
+    "colors": ["#1b1c1f"]
+  },
+  "media": {
+    "hero": "docs/media/hero.png",
+    "motion": "docs/media/demo.webp",
+    "capture": "npm run media:capture"
+  },
+  "demo": {
+    "strategy": "hosted",
+    "local": "npm run demo",
+    "externals": [
+      {
+        "name": "Reddit",
+        "type": "service",
+        "seam": "--host-resolver-rules maps www.reddit.com to a local server (demo/serve.mjs); the hosted build serves the same page itself",
+        "standIn": "simulated",
+        "note": "A synthetic feed of invented posts and comments in Reddit's markup. It is not Reddit, and the real site's markup can change."
+      },
+      {
+        "name": "Wikidata and Fandom lookups",
+        "type": "service",
+        "seam": "the topic's saved terms in chrome.storage.local, seeded by demo/seed.mjs",
+        "standIn": "canned",
+        "note": "House of the Dragon and Elden Ring come with hand-written sample terms. Looking up a new title needs the installed extension."
+      },
+      {
+        "name": "Chrome extension APIs",
+        "type": "service",
+        "seam": "window.chrome, defined on the hosted page before the extension scripts run (demo/web/build.mjs)",
+        "standIn": "simulated",
+        "note": "chrome.storage.local is kept in localStorage; the strip above the feed stands in for the toolbar popup. The local demo loads the real extension instead."
+      },
+      {
+        "name": "Claude API key",
+        "type": "account",
+        "seam": "the optional API key in Settings; sources.js skips Claude when none is set",
+        "standIn": "omitted",
+        "note": "Only used when you add a key. The demo does not call it."
+      }
+    ]
+  },
+  "live": "https://spoilit.soleone.xyz"
+}
