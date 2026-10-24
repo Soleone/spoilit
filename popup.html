@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spoilit</title>
+  <link rel="stylesheet" href="ui.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Spoilit</h1>
+    <label class="row" title="Turn all hiding on or off">
+      <span id="active-label"></span>
+      <span class="switch"><input type="checkbox" id="active"><span></span></span>
+    </label>
+  </header>
+
+  <form id="add" autocomplete="off">
+    <input id="query" placeholder="Movie, show or game you're avoiding" autofocus>
+    <div id="results" hidden></div>
+  </form>
+
+  <ul id="topics"></ul>
+  <p id="empty" class="muted" hidden>Nothing muted yet. Add something above, then use Reddit as usual. Hidden posts show as dark bars; click one to reveal it.</p>
+
+  <footer>
+    <button id="settings" type="button">Settings</button>
+    <span id="summary" class="muted"></span>
+  </footer>
+
+  <template id="topic-tpl">
+    <li class="topic">
+      <div class="head">
+        <label class="switch" title="Hide posts about this"><input type="checkbox" class="enabled"><span></span></label>
+        <button class="name" type="button"><span class="title"></span><span class="meta muted"></span></button>
+        <button class="delete" type="button">Remove</button>
+      </div>
+      <div class="body">
+        <p class="note muted"></p>
+        <label class="stack">Terms, one per line <textarea class="keywords" rows="8" spellcheck="false"></textarea></label>
+        <label class="stack">Subreddits hidden entirely <textarea class="subreddits" rows="2" spellcheck="false"></textarea></label>
+        <div class="actions">
+          <button class="rebuild" type="button">Look up again</button>
+          <button class="copy" type="button">Copy chatbot prompt</button>
+        </div>
+        <textarea class="paste" rows="2" placeholder="Paste a chatbot's reply here to add its terms"></textarea>
+      </div>
+    </li>
+  </template>
+
+  <script src="match.js"></script>
+  <script src="sources.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

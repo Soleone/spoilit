@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spoilit settings</title>
+  <link rel="stylesheet" href="ui.css">
+  <style>
+    main { max-width: 640px; margin: 0 auto; padding: 40px 16px 80px; }
+    header p { margin: 4px 0 24px; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .panel .stack { margin-top: 14px; }
+    #test-result { margin: 8px 0 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Spoilit settings</h1>
+      <p class="muted">Add and remove topics from the toolbar icon. Topics are looked up on Wikidata and fan wikis, no account needed.</p>
+    </header>
+
+    <section class="panel">
+      <h2>Hiding</h2>
+      <label class="row"><input type="checkbox" id="hide-comments"> Also hide matching comments</label>
+    </section>
+
+    <section class="panel">
+      <h2>Test</h2>
+      <input id="test" placeholder="Paste a post title to see if it would be hidden" autocomplete="off">
+      <p id="test-result" class="muted"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Claude (optional)</h2>
+      <p class="muted">With an API key, new topics also get terms from Claude, which helps most with things too new for Wikidata. Billed to your API account, stored only in this browser.</p>
+      <label class="stack">
+        Anthropic API key
+        <input id="api-key" type="password" placeholder="sk-ant-..." autocomplete="off">
+      </label>
+      <label class="row" style="margin-top: 10px"><input type="checkbox" id="web-search"> Let Claude search the web (better for shows airing now)</label>
+    </section>
+  </main>
+
+  <script src="match.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

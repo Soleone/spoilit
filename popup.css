@@ -1,0 +1,61 @@
+body { width: 360px; overflow-x: hidden; }
+
+header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; }
+header .row { margin: 0; font-size: 12px; color: var(--muted); }
+
+#add { position: relative; padding: 0 16px 12px; }
+#results {
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  overflow: hidden;
+}
+#results button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 12px;
+  background: none;
+  white-space: normal;
+}
+#results button + button { border-top: 1px solid var(--line); }
+#results button:hover, #results button:focus-visible { background: var(--bg); outline: none; }
+#results small { display: block; color: var(--muted); font-size: 12px; }
+#results p { margin: 0; padding: 8px 12px; color: var(--muted); font-size: 12.5px; }
+
+#topics { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); max-height: 420px; overflow-y: auto; }
+#empty { margin: 0; padding: 18px 16px; font-size: 12.5px; }
+
+.topic { border-bottom: 1px solid var(--line); }
+.head { display: flex; align-items: center; gap: 10px; padding: 9px 10px 9px 16px; }
+.head .name {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  border: 0;
+  padding: 0;
+  background: none;
+  white-space: normal;
+}
+.title { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta { display: block; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topic.off .title { color: var(--muted); }
+.topic.building .meta::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: currentColor; animation: pulse 1s infinite alternate; }
+.topic.error .meta { color: var(--danger); }
+@keyframes pulse { to { opacity: 0.2; } }
+
+.delete { border: 0; background: none; color: var(--muted); font-size: 12px; padding: 4px 6px; }
+.delete:hover { color: var(--text); }
+.delete.confirm { color: var(--danger); }
+
+.body { display: none; padding: 0 16px 14px; }
+.topic.open .body { display: flex; flex-direction: column; gap: 10px; }
+.note { margin: 0; font-size: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+footer { display: flex; justify-content: space-between; padding: 10px 16px 12px; font-size: 12px; }
+footer button { border: 0; background: none; padding: 0; color: var(--muted); }
+footer button:hover { color: var(--text); }
