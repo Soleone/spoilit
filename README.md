@@ -22,10 +22,11 @@ This opens Chromium with the real extension loaded, two sample topics and a synt
 
 There is no build step. The extension is plain JavaScript loaded as is.
 
-1. Open `chrome://extensions`.
-2. Turn on **Developer mode** (top right).
-3. Click **Load unpacked** and pick this folder.
-4. Pin the Spoilit icon from the puzzle-piece menu so the popup is one click away.
+1. Download `spoilit-<version>.zip` from the [latest release](https://github.com/Soleone/spoilit/releases/latest) and unzip it into a folder you'll keep (Chrome loads the extension from there). No git needed.
+2. Open `chrome://extensions`.
+3. Turn on **Developer mode** (top right).
+4. Click **Load unpacked** and pick the unzipped folder.
+5. Pin the Spoilit icon from the puzzle-piece menu so the popup is one click away.
 
 After editing a file, click the reload icon on the extension's card, then reload open Reddit tabs.
 
