@@ -8,16 +8,6 @@ Hide Reddit posts and comments about the movie, show or game you haven't caught 
 
 Hidden items show as dark bars. Click one to reveal it. The toolbar badge counts what's hidden on the tab.
 
-## Try it
-
-```sh
-git clone https://github.com/Soleone/spoilit && cd spoilit
-npm install
-npm run demo
-```
-
-This opens Chromium with the real extension loaded, two sample topics and a synthetic Reddit feed, so there is no account and nothing touches reddit.com. It needs a Chromium build that still accepts `--load-extension` (Google Chrome stable does not); set `CHROME_BIN` to pick one. `npm run demo:web` builds the same feed as a static page in `dist/web`, with a strip of controls standing in for the toolbar popup.
-
 ## Install
 
 There is no build step. The extension is plain JavaScript loaded as is.
@@ -58,6 +48,22 @@ The matcher (`match.js`) is whole-word, ignores case and accents, and lets phras
 
 Terms are saved in `chrome.storage.local` and never refreshed automatically. Matching on Reddit is fully local and makes no network requests. The only requests go to Wikidata and Fandom when you add or look up a topic, and to Anthropic if you add an API key, which stays in this browser.
 
+## Limits
+
+- Images and memes with no matching text get through, unless they're posted in a subreddit on the topic's list.
+- Matching is aggressive, so some unrelated posts get hidden too. They're one click away.
+- Reddit's markup changes now and then; the selectors live at the top of `content.js`.
+
+## Try the demo from source
+
+```sh
+git clone https://github.com/Soleone/spoilit && cd spoilit
+npm install
+npm run demo
+```
+
+This opens Chromium with the real extension loaded, two sample topics and a synthetic Reddit feed, so there is no account and nothing touches reddit.com. It needs a Chromium build that still accepts `--load-extension` (Google Chrome stable does not); set `CHROME_BIN` to pick one. `npm run demo:web` builds the same feed as a static page in `dist/web`, with a strip of controls standing in for the toolbar popup.
+
 ## Develop
 
 | Command | What it does |
@@ -81,12 +87,6 @@ Terms are saved in `chrome.storage.local` and never refreshed automatically. Mat
 | `test/` | Tests |
 
 `words.js` was built from the 10,000 most common English words ([google-10000-english](https://github.com/first20hours/google-10000-english)), the 1,200 most common US first names, and a hand-written list of words used about any show or game.
-
-## Limits
-
-- Images and memes with no matching text get through, unless they're posted in a subreddit on the topic's list.
-- Matching is aggressive, so some unrelated posts get hidden too. They're one click away.
-- Reddit's markup changes now and then; the selectors live at the top of `content.js`.
 
 ## License
 
